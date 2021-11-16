@@ -10,7 +10,6 @@ import Banner from "../../assets/slides/Banner.jpg";
 import StyledProductCategory from "./ProductCategory.Module.css";
 
 const ProductCategory = ({ history, match }) => {
-  // const product = products.find((p) => p._id === match.params.id)
   // products checkbox states
   const [isShowLaptopForm, setIsShowLaptopForm] = useState(true);
   const [isShowConsolesForm, setIsShowConsolesForm] = useState(false);
@@ -94,6 +93,17 @@ const ProductCategory = ({ history, match }) => {
     setIsShowSmartphonesContainer(true);
   };
 
+  const onlyCameraProducts = () => {
+    products
+      .filter((rel) => rel.brand === "Cannon" )
+      .map((relatedProducts) => (
+        <Col key={relatedProducts._id} sm={12} md={6} lg={4} xl={3}>
+          <Product product={relatedProducts} size />
+        </Col>
+      ));
+    console.log("message");
+  };
+
   return (
     <div>
       <div className="image-container my-5">
@@ -143,7 +153,11 @@ const ProductCategory = ({ history, match }) => {
                   <Form.Check type="checkbox" label="Speakers" />
                 </Form.Group>
                 <Form.Group className="mb-3" id="formGridCheckbox">
-                  <Form.Check type="checkbox" label="Camera" />
+                  <Form.Check
+                    type="checkbox"
+                    label="Camera"
+                    onChange={onlyCameraProducts}
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3" id="formGridCheckbox">
                   <Form.Check type="checkbox" label="Power-Banks" />
@@ -201,9 +215,12 @@ const ProductCategory = ({ history, match }) => {
 
             <div className="random-product">
               <Row>
-                {products.map((relatedProducts) => {
-                  const randomNumber = Math.floor(Math.random() *  (8 - 1 + 1) + 1);
+                {/* {products.map((relatedProducts) => {
+                  const randomNumber = Math.floor(
+                    Math.random() * (8 - 1 + 1) + 1
+                  );
                   if (relatedProducts._id === randomNumber.toString()) {
+                    console.log(relatedProducts);
                     return (
                       <Col
                         key={relatedProducts._id}
@@ -216,7 +233,7 @@ const ProductCategory = ({ history, match }) => {
                       </Col>
                     );
                   }
-                })}
+                },[])} */}
               </Row>
             </div>
           </Col>
