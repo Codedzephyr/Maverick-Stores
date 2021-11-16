@@ -1,11 +1,10 @@
-import React, { useState } from 'react'
-import { Col, Row } from 'react-bootstrap'
-import Nav from 'react-bootstrap/Nav'
-import Form from 'react-bootstrap/Form'
-import products from '../../products'
-import Product from '../../components/Product'
+import React, { useState } from "react";
+import { Col, Row } from "react-bootstrap";
+import Nav from "react-bootstrap/Nav";
+import Form from "react-bootstrap/Form";
+import products from "../../products";
+import Product from "../../components/Product";
 import { Link } from 'react-router-dom'
-// import product from '../ProductScreen'
 import Image from "react-bootstrap/Image";
 import Banner from "../../assets/slides/Banner.jpg";
 import StyledProductCategory from "./ProductCategory.Module.css";
