@@ -4,7 +4,8 @@ import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import products from "../../products";
 import Product from "../../components/Product";
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
+// import product from '../ProductScreen'
 import Image from "react-bootstrap/Image";
 import Banner from "../../assets/slides/Banner.jpg";
 import StyledProductCategory from "./ProductCategory.Module.css";
@@ -92,10 +93,11 @@ const ProductCategory = ({ history, match }) => {
     setIsShowSmartphonesForm(true);
     setIsShowSmartphonesContainer(true);
   };
+  const randomNumber = Math.floor(Math.random() * (8 - 1 + 1) + 1);
 
   const onlyCameraProducts = () => {
     products
-      .filter((rel) => rel.brand === "Cannon" )
+      .filter((rel) => rel.brand === "Cannon")
       .map((relatedProducts) => (
         <Col key={relatedProducts._id} sm={12} md={6} lg={4} xl={3}>
           <Product product={relatedProducts} size />
@@ -106,15 +108,14 @@ const ProductCategory = ({ history, match }) => {
 
   return (
     <div>
-      <div className='image-container my-5'>
-        <Link 
-        to='/installment'>
-        <Image src={Banner} thumbnail />
+      <div className="image-container my-5">
+        <Link to="/installment">
+          <Image src={Banner} thumbnail />
         </Link>
       </div>
       <div className={StyledProductCategory.productContainer}>
         <Row>
-          <Col className={StyledProductCategory.Smaller} xs={2}>
+          <Col className={StyledProductCategory.Smaller} sm={12} lg={2}>
             <div
               className={StyledProductCategory.laptopCheckboxContainer}
               style={{ display: isShowLaptopForm ? "block" : "none" }}
@@ -204,6 +205,7 @@ const ProductCategory = ({ history, match }) => {
                 type="radio"
                 label="Lowest To Highest"
                 className={StyledProductCategory.priceLabel}
+         
                 name="formHorizontalRadios"
                 id="formHorizontalRadios1"
               />
@@ -218,12 +220,12 @@ const ProductCategory = ({ history, match }) => {
 
             <div className="random-product">
               <Row>
-                {/* {products.map((relatedProducts) => {
-                  const randomNumber = Math.floor(
-                    Math.random() * (8 - 1 + 1) + 1
-                  );
-                  if (relatedProducts._id === randomNumber.toString()) {
-                    console.log(relatedProducts);
+                {products
+                  .filter(
+                    (relatedProducts) =>
+                      relatedProducts._id === randomNumber.toString()
+                  )
+                  .map((relatedProducts) => {
                     return (
                       <Col
                         key={relatedProducts._id}
@@ -235,12 +237,11 @@ const ProductCategory = ({ history, match }) => {
                         <Product product={relatedProducts} />
                       </Col>
                     );
-                  }
-                },[])} */}
+                  })}
               </Row>
             </div>
           </Col>
-          <Col className="bigger" xs={10}>
+          <Col className="bigger" lg={10} sm={12}>
             <Nav fill variant="pills" defaultActiveKey="link">
               <Nav.Item>
                 <Nav.Link
