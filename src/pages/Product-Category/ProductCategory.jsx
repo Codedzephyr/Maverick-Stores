@@ -1,16 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
-import products from "../../products";
+import { useDispatch, useSelector } from "react-redux";
+// import products from "../../products";
 import Product from "../../components/Product";
 import { Link } from "react-router-dom";
+import { listProducts } from "../../redux/actions/productActions";
 // import product from '../ProductScreen'
 import Image from "react-bootstrap/Image";
+import Loader from "../../components/Loader";
+import Message from "../../components/Message";
 import Banner from "../../assets/slides/Banner.jpg";
 import StyledProductCategory from "./ProductCategory.Module.css";
 
 const ProductCategory = ({ history, match }) => {
+  const dispatch = useDispatch();
+  // const productCategoryDetails = useSelector((state) => state.productCategoryDetails)
+  const productList = useSelector((state) => state.productList);
+  const { loading, error, products } = productList;
+
+  useEffect(() => {
+    dispatch(listProducts());
+  }, [dispatch]);
+
+
   // products checkbox states
   const [isShowLaptopForm, setIsShowLaptopForm] = useState(true);
   const [isShowConsolesForm, setIsShowConsolesForm] = useState(false);
@@ -205,7 +219,6 @@ const ProductCategory = ({ history, match }) => {
                 type="radio"
                 label="Lowest To Highest"
                 className={StyledProductCategory.priceLabel}
-         
                 name="formHorizontalRadios"
                 id="formHorizontalRadios1"
               />
@@ -223,12 +236,12 @@ const ProductCategory = ({ history, match }) => {
                 {products
                   .filter(
                     (relatedProducts) =>
-                      relatedProducts._id === randomNumber.toString()
+                      relatedProducts.id === randomNumber.toString()
                   )
                   .map((relatedProducts) => {
                     return (
                       <Col
-                        key={relatedProducts._id}
+                        key={relatedProducts.id}
                         sm={12}
                         md={12}
                         lg={12}
@@ -295,15 +308,26 @@ const ProductCategory = ({ history, match }) => {
                 display: isShowLaptopProductContainer ? "block" : "none",
               }}
             >
-              <Row>
-                {products
-                  .filter((rel) => rel.category === "Laptop")
-                  .map((relatedProducts) => (
-                    <Col key={relatedProducts._id} sm={12} md={6} lg={4} xl={3}>
-                      <Product product={relatedProducts} size />
-                    </Col>
-                  ))}
-              </Row>
+              {loading ? (
+                <Loader />
+              ) : error ? (
+                <Message variant="danger">{error}</Message>
+              ) : (
+                <Row>
+                  {products
+                    .map((product) => (
+                      <Col
+                        key={product.id}
+                        sm={12}
+                        md={6}
+                        lg={4}
+                        xl={3}
+                      >
+                        <Product product={product} size />
+                      </Col>
+                    ))}
+                </Row>
+              )}
             </div>
             <div
               className={StyledProductCategory.consoleProductsContainer}
@@ -312,7 +336,7 @@ const ProductCategory = ({ history, match }) => {
               }}
             >
               {" "}
-              <Row>
+              {/* <Row>
                 {products
                   .filter((rel) => rel.category === "Console")
                   .map((relatedProducts) => (
@@ -320,7 +344,7 @@ const ProductCategory = ({ history, match }) => {
                       <Product product={relatedProducts} size />
                     </Col>
                   ))}
-              </Row>
+              </Row> */}
             </div>
             <div
               className={StyledProductCategory.accessoriesProductsContainer}
@@ -329,13 +353,13 @@ const ProductCategory = ({ history, match }) => {
               }}
             >
               <Row>
-                {products
+                {/* {products
                   .filter((rel) => rel.category === "Accessories")
                   .map((relatedProducts) => (
                     <Col key={relatedProducts._id} sm={12} md={6} lg={4} xl={3}>
                       <Product product={relatedProducts} size />
                     </Col>
-                  ))}
+                  ))} */}
               </Row>
             </div>
             <div
@@ -346,13 +370,13 @@ const ProductCategory = ({ history, match }) => {
             >
               {" "}
               <Row>
-                {products
+                {/* {products
                   .filter((rel) => rel.category === "Watch")
                   .map((relatedProducts) => (
                     <Col key={relatedProducts._id} sm={12} md={6} lg={4} xl={3}>
                       <Product product={relatedProducts} size />
                     </Col>
-                  ))}
+                  ))} */}
               </Row>
             </div>
             <div
@@ -364,9 +388,9 @@ const ProductCategory = ({ history, match }) => {
               {" "}
               <Row>
                 {products
-                  .filter((rel) => rel.category === "Phone")
+                  .filter((rel) => rel.category === "electronics")
                   .map((relatedProducts) => (
-                    <Col key={relatedProducts._id} sm={12} md={6} lg={4} xl={3}>
+                    <Col key={relatedProducts.id} sm={12} md={6} lg={4} xl={3}>
                       <Product product={relatedProducts} size />
                     </Col>
                   ))}
